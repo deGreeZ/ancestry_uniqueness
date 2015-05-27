@@ -3,7 +3,7 @@ require "ancestry_uniqueness/version"
 class AncestryUniquenessValidator < ActiveModel::EachValidator
 
   def validate_each(record, attribute, value)
-    exclude_self = record.try(:id) ? ['id <> ?', record.id] : []
+    exclude_self = record.try(:id) ? ["#{record.class.table_name}.id <> ?", record.id] : []
     scope_opts = [*options[:scope]]
 
     scope = scope_opts.inject({}) do |s, attr|
